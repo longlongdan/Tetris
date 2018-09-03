@@ -1,5 +1,8 @@
 //游戏的渲染
 export default class game {
+	constructor(gameData,nextData) {
+		this.initGame(gameData,nextData);
+	}
 	//根据数组在页面渲染出方块
 	render (arr,divName,width,height) {
 		let parent = document.querySelector(`.${divName}`);
@@ -21,6 +24,7 @@ export default class game {
 			}
 		}
 	}
+	//根据数组更新方块的类
 	refresh(arr,divName,width,height) {
 		let parent = document.querySelector(`.${divName}`);
 		for (let i = 0; i <arr.length; i++) {
@@ -37,6 +41,7 @@ export default class game {
 			}
 		}
 	}
+	//游戏初始化，渲染初始页面
 	initGame(gameData,nextData) {
 		this.render(gameData,"game",30,30);
 		this.render(nextData,"next",30,30);
