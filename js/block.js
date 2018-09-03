@@ -66,7 +66,6 @@ export default class block {
 			}
 		}
 	}
-	//下坠
 	//下落 1：下落下一个方块 0：游戏结束
 	down() {
 		this.origin.x++;
@@ -119,8 +118,14 @@ export default class block {
 		for (var i = 0; i < this.gameData[0].length; i++) {
 			if (this.gameData[0][i]!==0) {
 				//游戏结束
+				this.gameOver();
 				return true;
 			}
 		}
+	}
+	//游戏结束逻辑
+	gameOver() {
+		//alert("游戏结束");
+		document.querySelector("#gameOver").style.display = "block";
 	}
 }

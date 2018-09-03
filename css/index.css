@@ -45,3 +45,29 @@
 	border: 1px solid #000;
 	position: absolute;
 }
+/*游戏结束画面*/
+#gameOver {
+	width: 200px;
+	height: 100px;
+	background-color: rgba(0,0,0,.5);
+	border: 1px solid #000;
+	position: absolute;
+	left: 60px;
+	top: 100px;
+	line-height: 60px;
+	text-align: center;
+	color: white;
+	display: none;
+}
+#gameOver span {
+	line-height: 20px;
+	height: 20px;
+	position: absolute;
+	bottom: 10px;
+}
+#again {
+	right: 10px;
+}
+#cancle {
+	left: 10px;
+}

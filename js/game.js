@@ -43,7 +43,10 @@ export default class game {
 	}
 	//游戏初始化，渲染初始页面
 	initGame(gameData,nextData) {
-		this.render(gameData,"game",30,30);
-		this.render(nextData,"next",30,30);
+		if(document.querySelector(".game").innerHTML ==="")
+		{
+			this.render(gameData,"game",30,30);
+			this.render(nextData,"next",30,30);
+		}
 	}
 }
