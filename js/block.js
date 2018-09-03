@@ -27,7 +27,7 @@ export default class block {
 		this.origin.y --;
 		for (var i = 0; i < this.currentData.length; i++) {
 			for(let j=0;j<this.currentData[i].length;j++){
-				if (this.currentData[i][j]!==0 && (this.gameData[this.origin.x+i][this.origin.y+j]===1|| this.origin.y+j<0)) {
+				if (this.currentData[i][j]!==0 && (this.origin.y+j<0 || this.gameData[this.origin.x+i][this.origin.y+j]===1)) {
 					this.origin.y ++;
 					return;
 				}
@@ -40,7 +40,7 @@ export default class block {
 		this.origin.y ++;
 		for (var i = 0; i < this.currentData.length; i++) {
 			for(let j=0;j<this.currentData[i].length;j++){
-				if (this.currentData[i][j]!==0 && (this.gameData[this.origin.x+i][this.origin.y+j]===1|| this.origin.y+j>9)) {
+				if (this.currentData[i][j]!==0 && (this.origin.y+j>9 || this.gameData[this.origin.x+i][this.origin.y+j]===1)) {
 					this.origin.y --;
 					return;
 				}
@@ -67,5 +67,60 @@ export default class block {
 		}
 	}
 	//下坠
-	//下落
+	//下落 1：下落下一个方块 0：游戏结束
+	down() {
+		this.origin.x++;
+		for (var i = 0; i < this.currentData.length; i++) {
+			for(let j=0;j<this.currentData[i].length;j++){
+				if (this.currentData[i][j]!==0 && (this.origin.x+i>19 || this.gameData[this.origin.x+i][this.origin.y+j]===1)) {
+					this.origin.x --;
+					if(this.completeDown()) return 0;
+					return 1;
+				}
+			}
+		}
+		this.upDate();
+	}
+	//下落完成
+	completeDown() {
+		//将二变为一
+		for (var i = 0; i < this.gameData.length; i++) {
+			for(let j=0;j<this.gameData[i].length;j++){
+				if (this.gameData[i][j]===2) {
+					this.gameData[i][j]=1;
+				}
+			}
+		}
+		//判断有没有全为1的一行
+		for (var i = this.gameData.length-1; i >=0; i--) {
+			let clear = true;
+			for (var j = 0; j < this.gameData[i].length; j++) {
+				if(this.gameData[i][j]===0) {
+					clear=false;
+					break;
+				}
+			}if (clear) {
+				//可以消除
+				let score = parseInt(window.localStorage.getItem("score"));
+				window.localStorage.setItem("score",++score);
+				document.querySelector("#score").innerHTML = window.localStorage.getItem("score");
+				for (var p = this.gameData.length - 1; p > 0; p--) {
+					for (var q = 0; q < this.gameData[p].length; q++) {
+						this.gameData[p][q] = this.gameData[p-1][q];
+					}
+				}
+				for (var q = 0; q < this.gameData[0].length; q++) {
+					this.gameData[0][q] = 0;
+				}
+				i++;
+			}
+		}
+		//判断游戏是否结束
+		for (var i = 0; i < this.gameData[0].length; i++) {
+			if (this.gameData[0][i]!==0) {
+				//游戏结束
+				return true;
+			}
+		}
+	}
 }
